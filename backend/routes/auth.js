@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
 const User = require('../models/Users');
 const {body, validationResult} = require('express-validator');
@@ -62,7 +62,7 @@ router.post('/createuser', [
     console.log(user);
 }
         catch(error) {
-            console.log(err);
+            console.log(error);
             console.error(error.message);
             res.status(500).send("Some Server Error");
         }
@@ -116,7 +116,7 @@ router.post('/getuser', fetchuser,
     async (req, res) =>{
 
         try{
-            userid = req.user.id;
+            let userid = req.user.id;
             const user = await User.findById(userid).select("-password");
             res.send(user);
         }

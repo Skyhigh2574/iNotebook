@@ -5,19 +5,33 @@ import About from './components/About';
 import Navbar from './components/Navbar';
 import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 import NoteState from './context/notes/NoteState';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { Alert } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-function App() {
+
+const App = () => {
+
+  const [darkTheme, setDarkTheme] = useState(true);
+
+  const toggleTheme = () => {
+    setDarkTheme(!darkTheme);
+  };
+
   return (
-     <div className="App">
+     <div style={{backgroundColor: darkTheme ? "darkslategrey": "aliceblue", "color": darkTheme ? "white": "black"}}>
+
    
       <NoteState>
       
         <Router>
           <Fragment>
           
-        <Navbar/>
-        <div className='container'>
+        <Navbar toggleTheme={toggleTheme} darkTheme={darkTheme} />
+        <Alert/>
+        
+        <div className='container' >
           <Routes>
             <Route exact path='/home' element={<Home />} />
             <Route exact path='/about' element={<About />} />

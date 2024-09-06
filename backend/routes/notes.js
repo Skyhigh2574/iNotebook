@@ -11,6 +11,19 @@ router.get('/fetchallnotes', fetchuser, async (req, res) =>{
     res.json(notes);
 })
 
+// router.get('/fetchnote/:id', fetchuser, async (req, res) =>{
+
+//     var note =  await Notes.findById(req.params.id);
+//     if(!note){
+//         return res.status(404).send("Not Found");
+//     }
+//     if(note.user.toString() !== req.user.id){
+//         return res.status(401).send("Not Allowed");
+//     }
+    
+//     res.json(note);
+// })
+
 router.post('/addnote', fetchuser, [
     
     body('title', 'Enter a valid email').isLength({min: 3}),
@@ -50,14 +63,14 @@ router.put('/updatenote/:id', fetchuser, async (req, res) =>{
     if(description) { newNote.description = description};4
     if(tag){ newNote.tag = tag};
 
-    var note =  await Note.findById(req.params.id);
+    var note =  await Notes.findById(req.params.id);
     if(!note){
         return res.status(404).send("Not Found");
     }
     if(note.user.toString() !== req.user.id){
         return res.status(401).send("Not Allowed");
     }
-    note = await Note.findByIdAndUpdate(req.params.id, {$set: newNote}, {new:true})
+    note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new:true})
 
     res.json({note});
 })
@@ -65,7 +78,7 @@ router.put('/updatenote/:id', fetchuser, async (req, res) =>{
 router.delete('/deletenote/:id', fetchuser, async (req, res) =>{
 
     try{
-    var note = await Note.findById(req.params.id);
+    var note = await Notes.findById(req.params.id);
 
     if(!note){
         return res.status(400).send("Not Exists");
@@ -75,7 +88,7 @@ router.delete('/deletenote/:id', fetchuser, async (req, res) =>{
         return res.status(401).send(" NOt Allowed");
     }
 
-    note = await Note.findByIdAndDelete(req.params.id);
+    note = await Notes.findByIdAndDelete(req.params.id);
     res.json({"Success": "Note has been deleted"});
 }
 catch(error){
